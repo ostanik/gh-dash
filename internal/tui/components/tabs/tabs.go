@@ -69,13 +69,10 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 
 func (m Model) View() string {
 	c := m.carousel.View()
-	logo := m.viewLogo()
 	return m.ctx.Styles.Tabs.TabsRow.
 		Width(m.ctx.ScreenWidth).
 		Height(common.HeaderHeight).
-		Render(lipgloss.JoinHorizontal(lipgloss.Bottom,
-			lipgloss.NewStyle().Width(
-				m.ctx.ScreenWidth-lipgloss.Width(logo)).Render(c), logo))
+		Render(lipgloss.NewStyle().Width(m.ctx.ScreenWidth).Render(c))
 }
 
 type latestVersionMsg struct {
@@ -110,7 +107,7 @@ func (m *Model) UpdateProgramContext(ctx *context.ProgramContext) {
 		Separator:         ctx.Styles.Tabs.TabSeparator,
 	})
 
-	m.carousel.SetWidth(ctx.ScreenWidth - lipgloss.Width(m.viewLogo()))
+	m.carousel.SetWidth(ctx.ScreenWidth)
 }
 
 func (m *Model) SetSections(sections []section.Section) {
