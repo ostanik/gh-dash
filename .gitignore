@@ -13,3 +13,6 @@ testdata/gh-schema.graphql
 .task/
 /sponsors.json
 resterm.env.json
+
+# Local patched build artifact
+gh-dash-patched

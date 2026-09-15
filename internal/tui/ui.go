@@ -1160,13 +1160,20 @@ func (m *Model) resolvePreviewPosition() string {
 }
 
 func (m *Model) getBaseContentHeight() int {
+	// Measure the actual tab-row height rather than the common.TabsHeight
+	// constant: with this lipgloss version the row renders one row shorter
+	// than the constant, which otherwise leaves a blank row at the bottom.
+	tabsHeight := lipgloss.Height(m.tabs.View())
+	if tabsHeight <= 0 {
+		tabsHeight = common.TabsHeight
+	}
 	if m.footer.ShowAll {
 		// Measure actual footer height — the ExpandedHelpHeight constant
 		// doesn't account for custom keybindings or view-specific bindings.
 		footerHeight := lipgloss.Height(m.footer.View())
-		return m.ctx.ScreenHeight - common.TabsHeight - footerHeight
+		return m.ctx.ScreenHeight - tabsHeight - footerHeight
 	}
-	return m.ctx.ScreenHeight - common.TabsHeight - common.FooterHeight
+	return m.ctx.ScreenHeight - tabsHeight - common.FooterHeight
 }
 
 func (m *Model) syncMainContentDimensions() {
